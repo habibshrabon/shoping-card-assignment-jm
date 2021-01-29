@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick=" handelProductChange('phone', false)" class="btn btn-default"><i
+                                 id="minusBtn" class="fas fa-minus"></i></button>
+                           <input id="phone-count" type="text" class="form-control text-center" value="1">
+                           <button onclick=" handelProductChange('phone', true)" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$ <span id="phone-total">1219</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick=" handelProductChange('case', false)" class="btn btn-default"><i
+                                 id="minusBtn" class="fas fa-minus"></i></button>
+                           <input id="case-count" type="text" class="form-control text-center" value="1">
+                           <button onclick=" handelProductChange('case', true)" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$ <span id="case-total">59</span></h5>
+                        <img id="removeBtn" src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5 id="total-price">$1,278</h5>
+                        <h5 id="tax-amount">$0</h5>
+                        <h5 id="grand-total">$1,278</h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <script>
+      function handelProductChange(product, isIncrease) {
+         const productInput = document.getElementById(product + "-count");
+         const productCount = getInputValue(product);
+         let productNewCount = productCount;
+         if (isIncrease == true) {
+            productNewCount = productCount + 1;
+         }
+         if (isIncrease == false && productCount > 0) {
+            productNewCount = productCount - 1;
+         }
+         productInput.value = productNewCount;
+         const productTotal = productNewCount * 59;
+         let ProductTotal = 0;
+         if (product == 'phone') {
+            ProductTotal = productNewCount * 1219;
+         }
+         if (product == 'case' && productNewCount > 0) {
+            ProductTotal = productNewCount * 59;
+         }
+         document.getElementById(product + "-total").innerText = ProductTotal;
+         calculateTotal();
+      };
+      function calculateTotal() {
+         // const phoneInput = document.getElementById("phone-count");
+         // const phoneCount = parseInt(phoneInput.value);
+
+         const phoneCount = getInputValue("phone");
+         const caseCount = getInputValue("case");
+
+         totalPrice = phoneCount * 1219 + caseCount * 59;
+         document.getElementById("total-price").innerText = totalPrice;
+
+         const tax = Math.round(totalPrice * 0.1);
+         document.getElementById("tax-amount").innerText = tax;
+
+         const grandTotal = totalPrice + tax;
+         document.getElementById("grand-total").innerText = grandTotal;
+      };
+      function getInputValue(product) {
+         const productInput = document.getElementById(product + "-count");
+         const productCount = parseInt(productInput.value);
+         return productCount;
+      };
+
+
+
+
+      //  //  function Mobile rules
+      //  document.getElementById("phone-increase").addEventListener("click", function(){
+      //     handelPhoneChange(true);
+      //  })
+      //  document.getElementById("phone-decrease").addEventListener("click", function(){
+      //     handelPhoneChange(false);
+      //  })
+
+      //  function handelPhoneChange(isIncrease){
+      //     const phoneInput = document.getElementById("phone-count");
+      //     const phoneCount = parseFloat(phoneInput.value);
+      //     if(isIncrease == true){
+      //        phoneNewCount = phoneCount + 1;
+      //     }
+      //     if(isIncrease == false && phoneCount > 0){
+      //        phoneNewCount = phoneCount - 1 ;
+      //     }
+      //     phoneInput.value = phoneNewCount;
+      //     const phoneTotal = phoneNewCount * 1219;
+      //     document.getElementById("phone-total").innerText = phoneTotal;
+      //  }
+
+
+      // //  function Mobile-case rules
+      //  document.getElementById("case-increase").addEventListener('click', function(){
+      //    handelProductChange(true);
+      // })
+
+      // document.getElementById("case-decrease").addEventListener("click", function(){
+      //    handelProductChange(false);
+      // });
+
+      // function handelProductChange(isIncrease){
+      //    const caseInput = document.getElementById('case-count');
+      //    const caseCount = parseFloat(caseInput.value);
+      //    if(isIncrease == true){
+      //       caseNewCount = caseCount + 1;
+      //    }
+      //    if(isIncrease == false && caseCount > 0){
+      //       caseNewCount = caseCount - 1;
+      //    }
+      //    caseInput.value = caseNewCount;
+      //    const caseTotal = caseNewCount * 59;
+      //    document.getElementById("case-total").innerText = caseTotal;
+      // };
+
+
+      //-------others rules
+      // document.getElementById("case-increase").addEventListener('click', function(){
+      //    const caseInput = document.getElementById("case-count");
+      //    const caseCount = parseFloat(caseInput.value)
+      //    const caseNewCount = caseCount + 1;
+      //    caseInput.value = caseNewCount;
+
+      //    const caseTotal = caseNewCount * 59;
+      //    document.getElementById("case-total").innerText = caseTotal;
+
+      // })
+
+      // document.getElementById("case-decrease").addEventListener("click", function(){
+      //    const caseInput = document.getElementById('case-count');
+      //    const caseCount = parseFloat(caseInput.value);
+      //    const caseNewCount = caseCount - 1;
+      //    caseInput.value = caseNewCount;
+
+      //    const caseTotal = caseNewCount * 59;
+      //    document.getElementById("case-total").innerText = caseTotal;
+      // });
+
+
+
+// var mobilePrice = 1219;
+// var casePrice = 59;
+
+// //--------------Mobile Plus Count-----------------//
+// const mobilePlus = document.getElementById("mobilePlus");
+
+
+// mobilePlus.addEventListener("click", function () {
+
+// var countPlus = 0;
+// countPlus++;
+// // console.log(countPlus);
+
+// const plusCount = document.getElementById("mobileCount").value;
+// // console.log(plusCount);
+// const plusCountNumber = parseFloat(plusCount);
+// // console.log(plusCountNumber);
+// const totalCount = countPlus + plusCountNumber;
+// document.getElementById("mobileCount").value = totalCount;
+
+// var totalMobilePrice = mobilePrice * totalCount;
+// console.log("Total mobile price: " + totalMobilePrice);
+
+// document.getElementById("addMobilePrice").innerText = totalMobilePrice;
+
+// })
+
+
+// //--------------Mobile Minus Count-----------------//
+
+// const mobileMinus = document.getElementById("mobileMinus");
+// mobileMinus.addEventListener("click", function () {
+
+// var countMinus = 0;
+// countMinus--;
+// // console.log(countMinus);
+
+// const minusCount = document.getElementById("mobileCount").value;
+// const minusCountNumber = parseFloat(minusCount);
+// const totalCount = countMinus + minusCountNumber;
+// document.getElementById("mobileCount").value = totalCount;
+
+// var totalMobilePriceMinus = mobilePrice * totalCount;
+// // console.log("Total mobile Minus price: " - totalMobilePriceMinus);
+
+// document.getElementById("addMobilePrice").innerText = totalMobilePriceMinus;
+// })
+
+// //--------------Mobile Case Plus Count-----------------//
+// const mobileCasePlus = document.getElementById("mobileCasePlus");
+// mobileCasePlus.addEventListener("click", function () {
+
+// var countCasePlus = 0;
+// countCasePlus++;
+
+// const casePlusCount = document.getElementById("mobileCaseCount").value;
+// const casePlusCountNumber = parseFloat(casePlusCount);
+// const totalCount = countCasePlus + casePlusCountNumber;
+// document.getElementById("mobileCaseCount").value = totalCount;
+
+// var totalMobileCasePrice = casePrice * totalCount;
+// // console.log("Total mobile price: " + totalMobileCasePrice);
+
+// document.getElementById("addCasePrice").innerText = totalMobileCasePrice;
+// })
+
+// //--------------Mobile Case Minus Count-----------------//
+// const mobileCaseMinus = document.getElementById("mobileCaseMinus");
+// mobileCaseMinus.addEventListener("click", function () {
+
+// var countCaseMinus = 0;
+// countCaseMinus--;
+
+// const caseMinusCount = document.getElementById("mobileCaseCount").value;
+// const caseMinusCountNumber = parseFloat(caseMinusCount);
+// const totalCount = countCaseMinus + caseMinusCountNumber;
+// document.getElementById("mobileCaseCount").value = totalCount;
+
+// var totalCasePriceMinus = casePrice * totalCount;
+// // console.log("Total mobile Minus price: " - totalMobilePriceMinus);
+
+// document.getElementById("addCasePrice").innerText = totalCasePriceMinus;
+// })
+
+
+
+   </script>
+
+</body>
+
+</html>
